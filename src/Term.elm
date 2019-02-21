@@ -15,6 +15,62 @@ type Term
 
 
 --
+-- FUNCTIONS
+--
+
+
+size : Term -> Int
+size t =
+    case t of
+        T ->
+            1
+
+        F ->
+            1
+
+        Zero ->
+            1
+
+        Succ a ->
+            1 + size a
+
+        Pred a ->
+            1 + size a
+
+        IsZero a ->
+            1 + size a
+
+        Cond a b c ->
+            1 + size a + size b + size c
+
+
+depth : Term -> Int
+depth t =
+    case t of
+        F ->
+            1
+
+        T ->
+            1
+
+        Zero ->
+            1
+
+        Succ a ->
+            1 + depth a
+
+        Pred a ->
+            1 + depth a
+
+        IsZero a ->
+            1 + depth a
+
+        Cond a b c ->
+            1 + (List.maximum [ depth a, depth b, depth c ] |> Maybe.withDefault 0)
+
+
+
+--
 -- PARSER
 --
 
