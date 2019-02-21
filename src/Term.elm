@@ -9,6 +9,7 @@ type Term
     | Zero
     | Succ Term
     | Pred Term
+    | IsZero Term
     | Cond Term Term Term
 
 
@@ -28,6 +29,7 @@ term =
             , zero
             , succ
             , pred
+            , iszero
             , lazy (\_ -> cond)
             ]
 
@@ -58,6 +60,11 @@ succ =
 pred : Parser Term
 pred =
     symbol "pred" |> andThen (\_ -> term) |> map (\t -> Pred t)
+
+
+iszero : Parser Term
+iszero =
+    symbol "iszero" |> andThen (\_ -> term) |> map (\t -> IsZero t)
 
 
 cond : Parser Term
