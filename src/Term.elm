@@ -15,6 +15,68 @@ type Term
 
 
 --
+-- EVALUATOR
+--
+
+
+type Value
+    = Numeric Int
+    | Boolean Bool
+    | Error
+
+
+eval : Term -> Value
+eval t =
+    case t of
+        Zero ->
+            Numeric 0
+
+        Succ a ->
+            case eval a of
+                Numeric b ->
+                    Numeric (b + 1)
+
+                _ ->
+                    Error
+
+        Pred a ->
+            case eval a of
+                Numeric b ->
+                    Numeric (b - 1)
+
+                _ ->
+                    Error
+
+        F ->
+            Boolean False
+
+        T ->
+            Boolean True
+
+        IsZero a ->
+            case eval a of
+                Numeric b ->
+                    Boolean (b == 0)
+
+                _ ->
+                    Error
+
+        Cond a b c ->
+            case eval a of
+                Boolean v ->
+                    case v of
+                        True ->
+                            eval b
+
+                        False ->
+                            eval c
+
+                _ ->
+                    Error
+
+
+
+--
 -- FUNCTIONS
 --
 
