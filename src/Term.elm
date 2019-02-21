@@ -1,5 +1,7 @@
 module Term exposing (..)
 
+-- (eval, term, size, depth)
+
 import Parser exposing (..)
 
 
@@ -11,6 +13,32 @@ type Term
     | Pred Term
     | IsZero Term
     | Cond Term Term Term
+
+
+
+--
+-- RUN
+--
+{- }
+   > ev "if iszero succ 0 then 0 else succ 0"
+   Ok (Numeric 1) : Result String Value
+
+   > ev "if iszero succ 0 then 0 else succ 1"
+   Err ("parser error") : Result String Value
+
+   > ev "if succ iszero succ 0 then 0 else succ 0"
+   Ok Error : Result String Value
+-}
+
+
+ev : String -> Result String Value
+ev str =
+    case run term str of
+        Ok ast ->
+            Ok (eval ast)
+
+        Err _ ->
+            Err "parser error"
 
 
 
