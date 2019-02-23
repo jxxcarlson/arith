@@ -1,6 +1,4 @@
-module Term exposing (..)
-
--- (eval, term, size, depth)
+module Term exposing (Term(..), Value, parse, eval, evalString, stringValue)
 
 import Parser exposing (..)
 
@@ -21,22 +19,18 @@ type Value
     | Error String
 
 
+{-| parse and evaulate a string:
 
-{- }
-   > ev "if iszero succ 0 then 0 else succ 0"
-     Numeric 1 : Result String Value
+    > evalString "if iszero succ 0 then 0 else succ 0"
+      Numeric 1 : Result String Value
 
-   > ev "if iszero succ 0 then 0 else succ 1"
-   Error ("Parse error") : Value
+    > evalString "if iszero succ 0 then 0 else succ 1"
+      Error ("Parse error") : Value
 
-   > ev "if succ iszero succ 0 then 0 else succ 0"
-   Error ("If-then-else: expecting boolean value") : Value
+    > evalString "if succ iszero succ 0 then 0 else succ 0"
+      Error ("If-then-else: expecting boolean value") : Value
+
 -}
---
--- EVALUATOR
---
-
-
 evalString : String -> Value
 evalString str =
     case run term str of
@@ -47,6 +41,12 @@ evalString str =
             Error "Parse error"
 
 
+{-| Find the value of a term:
+
+    > eval (Pred (Succ Zero))
+    Numeric 0 : Value
+
+-}
 eval : Term -> Value
 eval t =
     case t of
@@ -97,12 +97,46 @@ eval t =
                     Error "If-then-else: expecting boolean value"
 
 
+{-| Compute the string corresponding to a term.
+
+    > stringValue (Pred (Succ Zero))
+      "pred succ 0 " : String
+
+-}
+stringValue : Term -> String
+stringValue t =
+    case t of
+        Zero ->
+            "0 "
+
+        Succ a ->
+            "succ " ++ stringValue a
+
+        Pred a ->
+            "pred " ++ stringValue a
+
+        F ->
+            "False "
+
+        T ->
+            "True "
+
+        IsZero a ->
+            "iszero " ++ stringValue a
+
+        IfExpr a b c ->
+            "if " ++ stringValue a ++ "then " ++ stringValue b ++ "else " ++ stringValue c
+
+
 
 --
 -- FUNCTIONS
 --
 
 
+{-| Find the size of a term, i.e., the number of nodes
+condidered as a tree.
+-}
 size : Term -> Int
 size t =
     case t of
@@ -128,6 +162,9 @@ size t =
             1 + size a + size b + size c
 
 
+{-| Find the depth of a term, i.e., its depth considered
+as a tree.
+-}
 depth : Term -> Int
 depth t =
     case t of
@@ -153,10 +190,12 @@ depth t =
             1 + (List.maximum [ depth a, depth b, depth c ] |> Maybe.withDefault 0)
 
 
-
---
--- PARSER
---
+{-| parse a string in the langauge `arith`. If successful return
+a value Ok Term. Otherwise return a value `Err String`
+-}
+parse : String -> Result (List Parser.DeadEnd) Term
+parse str =
+    run term str
 
 
 term : Parser Term
@@ -194,17 +233,23 @@ zero =
 
 succ : Parser Term
 succ =
-    symbol "succ" |> andThen (\_ -> term) |> map (\t -> Succ t)
+    symbol "succ"
+        |> andThen (\_ -> term)
+        |> map (\t -> Succ t)
 
 
 pred : Parser Term
 pred =
-    symbol "pred" |> andThen (\_ -> term) |> map (\t -> Pred t)
+    symbol "pred"
+        |> andThen (\_ -> term)
+        |> map (\t -> Pred t)
 
 
 iszero : Parser Term
 iszero =
-    symbol "iszero" |> andThen (\_ -> term) |> map (\t -> IsZero t)
+    symbol "iszero"
+        |> andThen (\_ -> term)
+        |> map (\t -> IsZero t)
 
 
 ifExpr : Parser Term
