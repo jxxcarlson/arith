@@ -12,45 +12,39 @@ type Term
     | Succ Term
     | Pred Term
     | IsZero Term
-    | Cond Term Term Term
-
-
-
---
--- RUN
---
-{- }
-   > ev "if iszero succ 0 then 0 else succ 0"
-   Ok (Numeric 1) : Result String Value
-
-   > ev "if iszero succ 0 then 0 else succ 1"
-   Err ("parser error") : Result String Value
-
-   > ev "if succ iszero succ 0 then 0 else succ 0"
-   Ok Error : Result String Value
--}
-
-
-ev : String -> Result String Value
-ev str =
-    case run term str of
-        Ok ast ->
-            Ok (eval ast)
-
-        Err _ ->
-            Err "parser error"
-
-
-
---
--- EVALUATOR
---
+    | IfExpr Term Term Term
 
 
 type Value
     = Numeric Int
     | Boolean Bool
-    | Error
+    | Error String
+
+
+
+{- }
+   > ev "if iszero succ 0 then 0 else succ 0"
+     Numeric 1 : Result String Value
+
+   > ev "if iszero succ 0 then 0 else succ 1"
+   Error ("Parse error") : Value
+
+   > ev "if succ iszero succ 0 then 0 else succ 0"
+   Error ("If-then-else: expecting boolean value") : Value
+-}
+--
+-- EVALUATOR
+--
+
+
+evalString : String -> Value
+evalString str =
+    case run term str of
+        Ok ast ->
+            eval ast
+
+        Err _ ->
+            Error "Parse error"
 
 
 eval : Term -> Value
@@ -65,7 +59,7 @@ eval t =
                     Numeric (b + 1)
 
                 _ ->
-                    Error
+                    Error "succ expects numeric value"
 
         Pred a ->
             case eval a of
@@ -73,7 +67,7 @@ eval t =
                     Numeric (b - 1)
 
                 _ ->
-                    Error
+                    Error "pred expects numeric value"
 
         F ->
             Boolean False
@@ -87,9 +81,9 @@ eval t =
                     Boolean (b == 0)
 
                 _ ->
-                    Error
+                    Error "iszero expects a numeric value"
 
-        Cond a b c ->
+        IfExpr a b c ->
             case eval a of
                 Boolean v ->
                     case v of
@@ -100,7 +94,7 @@ eval t =
                             eval c
 
                 _ ->
-                    Error
+                    Error "If-then-else: expecting boolean value"
 
 
 
@@ -130,7 +124,7 @@ size t =
         IsZero a ->
             1 + size a
 
-        Cond a b c ->
+        IfExpr a b c ->
             1 + size a + size b + size c
 
 
@@ -155,7 +149,7 @@ depth t =
         IsZero a ->
             1 + depth a
 
-        Cond a b c ->
+        IfExpr a b c ->
             1 + (List.maximum [ depth a, depth b, depth c ] |> Maybe.withDefault 0)
 
 
@@ -176,7 +170,7 @@ term =
             , succ
             , pred
             , iszero
-            , lazy (\_ -> cond)
+            , lazy (\_ -> ifExpr)
             ]
 
 
@@ -213,9 +207,9 @@ iszero =
     symbol "iszero" |> andThen (\_ -> term) |> map (\t -> IsZero t)
 
 
-cond : Parser Term
-cond =
-    succeed Cond
+ifExpr : Parser Term
+ifExpr =
+    succeed IfExpr
         |. symbol "if"
         |= term
         |. spaces
