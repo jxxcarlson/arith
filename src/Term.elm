@@ -64,7 +64,10 @@ eval t =
         Pred a ->
             case eval a of
                 Numeric b ->
-                    Numeric (b - 1)
+                    if b == 0 then
+                        Numeric 0
+                    else
+                        Numeric (b - 1)
 
                 _ ->
                     Error "pred expects numeric value"
