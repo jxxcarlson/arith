@@ -133,7 +133,7 @@ stringValue t =
 
 
 --
--- FUNCTIONS
+-- FUNCTIONS ON TERMS
 --
 
 
@@ -193,8 +193,18 @@ depth t =
             1 + (List.maximum [ depth a, depth b, depth c ] |> Maybe.withDefault 0)
 
 
+
+--
+-- PARSER
+--
+
+
 {-| parse a string in the langauge `arith`. If successful return
 a value Ok Term. Otherwise return a value `Err String`
+
+NOTE: This parser will parse the longest valid prefix in an
+input string. For example, "parse 0 == parse 0 succ".
+
 -}
 parse : String -> Result (List Parser.DeadEnd) Term
 parse str =
