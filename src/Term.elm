@@ -1,4 +1,4 @@
-module Term exposing (Term(..), Value, parse, eval, evalString, stringValue)
+module Term exposing (Term(..), Value, eval, evalString, parse, stringOfValue, stringValue)
 
 import Parser exposing (..)
 
@@ -13,13 +13,30 @@ type Term
     | IfExpr Term Term Term
 
 
+stringOfValue : Value -> String
+stringOfValue val =
+    case val of
+        Numeric i ->
+            String.fromInt i
+
+        Boolean b ->
+            if b then
+                "true"
+
+            else
+                "false"
+
+        Error str ->
+            str
+
+
 type Value
     = Numeric Int
     | Boolean Bool
     | Error String
 
 
-{-| parse and evaulate a string:
+{-| parse and evalate a string:
 
     > evalString "if iszero succ 0 then 0 else succ 0"
       Numeric 1 : Result String Value
@@ -66,6 +83,7 @@ eval t =
                 Numeric b ->
                     if b == 0 then
                         Numeric 0
+
                     else
                         Numeric (b - 1)
 
@@ -138,7 +156,7 @@ stringValue t =
 
 
 {-| Find the size of a term, i.e., the number of nodes
-condidered as a tree.
+considered as a tree.
 -}
 size : Term -> Int
 size t =
