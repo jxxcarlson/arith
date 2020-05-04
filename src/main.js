@@ -2935,57 +2935,57 @@ var $author$project$Main$subscriptions = function (_v0) {
 var $elm$json$Json$Decode$succeed = _Json_succeed;
 var $elm$json$Json$Encode$string = _Json_wrap;
 var $author$project$Main$put = _Platform_outgoingPort('put', $elm$json$Json$Encode$string);
-var $author$project$Term$Error = function (a) {
+var $author$project$Interpreter$Error = function (a) {
 	return {$: 'Error', a: a};
 };
-var $author$project$Term$Boolean = function (a) {
+var $author$project$Interpreter$Boolean = function (a) {
 	return {$: 'Boolean', a: a};
 };
-var $author$project$Term$Numeric = function (a) {
+var $author$project$Interpreter$Numeric = function (a) {
 	return {$: 'Numeric', a: a};
 };
-var $author$project$Term$eval = function (t) {
+var $author$project$Interpreter$eval = function (t) {
 	_eval:
 	while (true) {
 		switch (t.$) {
 			case 'Zero':
-				return $author$project$Term$Numeric(0);
+				return $author$project$Interpreter$Numeric(0);
 			case 'Succ':
 				var a = t.a;
-				var _v1 = $author$project$Term$eval(a);
+				var _v1 = $author$project$Interpreter$eval(a);
 				if (_v1.$ === 'Numeric') {
 					var b = _v1.a;
-					return $author$project$Term$Numeric(b + 1);
+					return $author$project$Interpreter$Numeric(b + 1);
 				} else {
-					return $author$project$Term$Error('succ expects numeric value');
+					return $author$project$Interpreter$Error('succ expects numeric value');
 				}
 			case 'Pred':
 				var a = t.a;
-				var _v2 = $author$project$Term$eval(a);
+				var _v2 = $author$project$Interpreter$eval(a);
 				if (_v2.$ === 'Numeric') {
 					var b = _v2.a;
-					return (!b) ? $author$project$Term$Numeric(0) : $author$project$Term$Numeric(b - 1);
+					return (!b) ? $author$project$Interpreter$Numeric(0) : $author$project$Interpreter$Numeric(b - 1);
 				} else {
-					return $author$project$Term$Error('pred expects numeric value');
+					return $author$project$Interpreter$Error('pred expects numeric value');
 				}
 			case 'F':
-				return $author$project$Term$Boolean(false);
+				return $author$project$Interpreter$Boolean(false);
 			case 'T':
-				return $author$project$Term$Boolean(true);
+				return $author$project$Interpreter$Boolean(true);
 			case 'IsZero':
 				var a = t.a;
-				var _v3 = $author$project$Term$eval(a);
+				var _v3 = $author$project$Interpreter$eval(a);
 				if (_v3.$ === 'Numeric') {
 					var b = _v3.a;
-					return $author$project$Term$Boolean(!b);
+					return $author$project$Interpreter$Boolean(!b);
 				} else {
-					return $author$project$Term$Error('iszero expects a numeric value');
+					return $author$project$Interpreter$Error('iszero expects a numeric value');
 				}
 			default:
 				var a = t.a;
 				var b = t.b;
 				var c = t.c;
-				var _v4 = $author$project$Term$eval(a);
+				var _v4 = $author$project$Interpreter$eval(a);
 				if (_v4.$ === 'Boolean') {
 					var v = _v4.a;
 					if (v) {
@@ -2998,7 +2998,7 @@ var $author$project$Term$eval = function (t) {
 						continue _eval;
 					}
 				} else {
-					return $author$project$Term$Error('If-then-else: expecting boolean value');
+					return $author$project$Interpreter$Error('If-then-else: expecting boolean value');
 				}
 		}
 	}
@@ -3558,16 +3558,16 @@ try {
 	};
 } catch ($) {
 	throw 'Some top-level definitions from `Term` are causing infinite recursion:\n\n  ┌─────┐\n  │    ifExpr\n  │     ↓\n  │    term\n  │     ↓\n  │    iszero\n  │     ↓\n  │    pred\n  │     ↓\n  │    succ\n  └─────┘\n\nThese errors are very tricky, so read https://elm-lang.org/0.19.1/bad-recursion to learn how to fix it!';}
-var $author$project$Term$evalString = function (str) {
+var $author$project$Interpreter$evalString = function (str) {
 	var _v0 = A2($elm$parser$Parser$run, $author$project$Term$term, str);
 	if (_v0.$ === 'Ok') {
 		var ast = _v0.a;
-		return $author$project$Term$eval(ast);
+		return $author$project$Interpreter$eval(ast);
 	} else {
-		return $author$project$Term$Error('Parse error');
+		return $author$project$Interpreter$Error('Parse error');
 	}
 };
-var $author$project$Term$stringOfValue = function (val) {
+var $author$project$Interpreter$stringOfValue = function (val) {
 	switch (val.$) {
 		case 'Numeric':
 			var i = val.a;
@@ -3581,8 +3581,8 @@ var $author$project$Term$stringOfValue = function (val) {
 	}
 };
 var $author$project$Main$transform = function (inp) {
-	return $author$project$Term$stringOfValue(
-		$author$project$Term$evalString(inp));
+	return $author$project$Interpreter$stringOfValue(
+		$author$project$Interpreter$evalString(inp));
 };
 var $author$project$Main$update = F2(
 	function (msg, model) {

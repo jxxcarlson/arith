@@ -1,7 +1,7 @@
 port module Main exposing (main)
 
 import Platform exposing (Program)
-import Term
+import Interpreter
 
 
 {-| A simple Platform.worker program with
@@ -84,5 +84,5 @@ subscriptions _ =
 
 transform : InputType -> InputType
 transform inp =
-    Term.evalString inp
-        |> Term.stringOfValue
+    Interpreter.evalString inp
+        |> Interpreter.stringOfValue
