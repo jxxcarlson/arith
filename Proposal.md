@@ -1,7 +1,7 @@
 # Proposal
 
 
-## Learning goal 
+## Learning goal
 
 To learn to write parsers in Elm.
 
@@ -11,7 +11,7 @@ To learn to write parsers in Elm.
 
 ## Pitch to organizers
 
-Parsers have a reputation of being scary/hard.  They are not, and the goal of this workshop is for every participant to come away from the workshop with enough experience to write parsers on their own.  I've spent a good deal of time working with the elm/parser library in various projects, so I think I could do a reasonable job of this. I've also recruited three people to help with workshop; if it is approved, we will develop the workshop materials and program together.  There will be some material that participants can look at in advance if they wish.
+Parsers have a reputation of being scary/hard.  They are not, and the goal is for every participant to come away from the workshop with enough experience to write parsers on their own.  I've spent a good deal of time working with the elm/parser library in various projects, so I think I could do a reasonable job of this. I've also recruited three people to help with workshop; if it is approved, we will develop the workshop materials and program together.  There will be some material that participants can look at in advance if they wish.
 
 
 ## Outline
