@@ -18,6 +18,10 @@ Convenient, but not needed for the above
 
 - **repl.js:** a Javascript program which sets up communication between `Main.elm` and the console.
 
+## Docs
+
+- Exercises
+
 ## Operation of the repl  
 
 ```
