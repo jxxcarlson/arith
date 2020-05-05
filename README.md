@@ -20,6 +20,7 @@ Convenient, but not needed for the above
 
 ## Docs
 
+- Lesson 1
 - Exercises
 
 ## Operation of the repl  
