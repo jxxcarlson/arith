@@ -1,11 +1,11 @@
 // A repl for communicating with an Elm Platform.worker program
-// See README for installaion directions
+// See README for installation directions
 // Sample session:
 //    $ node run/repl.js
 //    > 33
 //    100
 //
-// The worker applied a mystery function the input
+// The worker applied a mystery function to the input
 // 33 to produce the output 100
 
 // Main.elm has two ports:
