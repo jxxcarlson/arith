@@ -97,13 +97,11 @@ eval t =
 
         IfExpr a b c ->
             case eval a of
-                Boolean v ->
-                    case v of
-                        True ->
-                            eval b
+                Boolean True ->
+                    eval b
 
-                        False ->
-                            eval c
+                Boolean False ->
+                    eval c
 
                 _ ->
                     Error "If-then-else: expecting boolean value"
