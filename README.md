@@ -1,1 +1,1 @@
-An Elm implmentation for the little language "arith" described in Benjamin Pierce's book *Types and Programming Languages,* Chapter 3.
+An Elm implmentation for the little language "arith" described in Benjamin Pierce's book *Types and Programming Languages,* Chapter 3.  Here is a [Medium article](https://medium.com/@jxxcarlson/implementing-the-mini-language-arith-in-elm-a522f9a7101) on Arith and implementation of a parser for it in Elm.
