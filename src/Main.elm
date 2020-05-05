@@ -1,7 +1,7 @@
 port module Main exposing (main)
 
-import Platform exposing (Program)
 import Interpreter
+import Platform exposing (Program)
 
 
 {-| A simple Platform.worker program with

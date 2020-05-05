@@ -1,4 +1,4 @@
-module Term exposing (Term(..),  term, parse, stringValue)
+module Term exposing (Term(..), parse, stringValue, term)
 
 import Parser exposing (..)
 
@@ -11,7 +11,6 @@ type Term
     | Pred Term
     | IsZero Term
     | IfExpr Term Term Term
-
 
 
 {-| parse a string in the langauge `arith`. If successful return
@@ -91,7 +90,6 @@ ifExpr =
         |. spaces
         |. symbol "else"
         |= term
-
 
 
 {-| Compute the string corresponding to a term.

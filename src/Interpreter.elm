@@ -1,8 +1,7 @@
-module Interpreter exposing(eval, evalString, stringOfValue)
+module Interpreter exposing (eval, evalString, stringOfValue)
 
-import Parser exposing(run)
-import Term exposing(term, Term(..))
-
+import Parser exposing (run)
+import Term exposing (Term(..), term)
 
 
 stringOfValue : Value -> String
@@ -11,7 +10,8 @@ stringOfValue val =
         Numeric i ->
             String.fromInt i
 
-        Boolean b ->    if b then
+        Boolean b ->
+            if b then
                 "true"
 
             else
