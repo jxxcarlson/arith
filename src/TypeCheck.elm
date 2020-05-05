@@ -56,12 +56,7 @@ typeCheckString str =
 
 typeCheckResult : Result (List Parser.DeadEnd) Term -> Maybe Type_
 typeCheckResult result =
-    case result of
-        Err _ ->
-            Nothing
-
-        Ok term ->
-            typeCheck term
+    (Maybe.andThen typeCheck << Result.toMaybe) result
 
 
 typeCheck : Term -> Maybe Type_
