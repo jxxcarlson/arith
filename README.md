@@ -34,11 +34,6 @@ Not typable
 
 
 
-- The result of parsing
-- The result of type checking if parsing is successful
-- The result of evaluating the AST if type checking is successful
-
-
 ## References
 
 - *Types and Programming Languages*, by Benjamin Pierce
