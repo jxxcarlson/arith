@@ -3,7 +3,7 @@
 An Elm implementation of the little language "arith" described in  *Types and Programming Languages,* Chapter 3.  
 
 
-## Files
+## Code
 
 - **Term.elm:** the function `parse : String -> Result (List Parser.DeadEnd) Term`
 
@@ -36,7 +36,6 @@ $ node repl.js
 > succ succ false
 Not typable
 ```
-
 
 
 ## References
