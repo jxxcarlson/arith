@@ -40,6 +40,6 @@ so that the following are shown:
 
 ## References
 
-- *Types and Programming Languages, by Benjamin Pierce
+- *Types and Programming Languages*, by Benjamin Pierce
 
 - A [Medium article](https://medium.com/@jxxcarlson/implementing-the-mini-language-arith-in-elm-a522f9a7101) on Arith and implementation of a parser for it in Elm.
