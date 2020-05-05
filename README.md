@@ -24,14 +24,15 @@ Convenient, but not needed for the above
 $ cd src
 $ sh make.sh
 $ node repl.js
-> succ 0
-1
+
+> succ succ 0
+2
+
+> succ succ false
+Not typable
 ```
 
 
-For now, the repl.js + Main.elm can only parse, then evaluate, showing
-the value or an error.  I'll improve repl + Main shortly
-so that the following are shown:
 
 - The result of parsing
 - The result of type checking if parsing is successful

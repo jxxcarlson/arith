@@ -1,5 +1,7 @@
 port module Main exposing (main)
 
+import Term
+import TypeCheck
 import Interpreter
 import Platform exposing (Program)
 
@@ -67,7 +69,7 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         Input input ->
-            ( model, put (transform input) )
+            ( model, put (transform2 input) )
 
 
 subscriptions : Model -> Sub Msg
@@ -82,7 +84,19 @@ subscriptions _ =
 -}
 
 
-transform : InputType -> InputType
-transform inp =
+transform1 : InputType -> InputType
+transform1 inp =
     Interpreter.evalString inp
         |> Interpreter.stringOfValue
+
+
+transform2 : InputType -> InputType
+transform2 inp =
+    case Term.parse inp of
+      Err _ -> "Parse error"
+      Ok term_ ->
+        case TypeCheck.typeCheck term_ of
+          Nothing -> "Not typable"
+          Just type_ ->
+            Interpreter.evalString inp
+                |> Interpreter.stringOfValue

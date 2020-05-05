@@ -1,4 +1,4 @@
-module TypeCheck exposing (Type_(..), typeCheck, typeCheckString)
+module TypeCheck exposing (Type_(..), toString, typeCheck, typeCheckString)
 
 import Term exposing(Term(..))
 
@@ -13,6 +13,13 @@ import Parser exposing (..)
 type Type_
     = B
     | N
+
+
+toString : Type_ -> String
+toString type_ =
+  case type_ of
+    B -> "Boolean"
+    N -> "Nat"
 
 {-|
 

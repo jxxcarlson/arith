@@ -3567,6 +3567,9 @@ var $author$project$Interpreter$evalString = function (str) {
 		return $author$project$Interpreter$Error('Parse error');
 	}
 };
+var $author$project$Term$parse = function (str) {
+	return A2($elm$parser$Parser$run, $author$project$Term$term, str);
+};
 var $author$project$Interpreter$stringOfValue = function (val) {
 	switch (val.$) {
 		case 'Numeric':
@@ -3580,9 +3583,98 @@ var $author$project$Interpreter$stringOfValue = function (val) {
 			return str;
 	}
 };
-var $author$project$Main$transform = function (inp) {
-	return $author$project$Interpreter$stringOfValue(
-		$author$project$Interpreter$evalString(inp));
+var $author$project$TypeCheck$B = {$: 'B'};
+var $author$project$TypeCheck$N = {$: 'N'};
+var $elm$core$Basics$neq = _Utils_notEqual;
+var $author$project$TypeCheck$typeCheck = function (term) {
+	typeCheck:
+	while (true) {
+		switch (term.$) {
+			case 'T':
+				return $elm$core$Maybe$Just($author$project$TypeCheck$B);
+			case 'F':
+				return $elm$core$Maybe$Just($author$project$TypeCheck$B);
+			case 'Zero':
+				return $elm$core$Maybe$Just($author$project$TypeCheck$N);
+			case 'Succ':
+				var term_ = term.a;
+				var _v1 = $author$project$TypeCheck$typeCheck(term_);
+				if (_v1.$ === 'Just') {
+					if (_v1.a.$ === 'B') {
+						var _v2 = _v1.a;
+						return $elm$core$Maybe$Nothing;
+					} else {
+						var _v3 = _v1.a;
+						return $elm$core$Maybe$Just($author$project$TypeCheck$N);
+					}
+				} else {
+					return $elm$core$Maybe$Nothing;
+				}
+			case 'Pred':
+				var term_ = term.a;
+				var _v4 = $author$project$TypeCheck$typeCheck(term_);
+				if (_v4.$ === 'Just') {
+					if (_v4.a.$ === 'B') {
+						var _v5 = _v4.a;
+						return $elm$core$Maybe$Nothing;
+					} else {
+						var _v6 = _v4.a;
+						return $elm$core$Maybe$Just($author$project$TypeCheck$N);
+					}
+				} else {
+					return $elm$core$Maybe$Nothing;
+				}
+			case 'IsZero':
+				var term_ = term.a;
+				var _v7 = $author$project$TypeCheck$typeCheck(term_);
+				if (_v7.$ === 'Just') {
+					if (_v7.a.$ === 'B') {
+						var _v8 = _v7.a;
+						return $elm$core$Maybe$Nothing;
+					} else {
+						var _v9 = _v7.a;
+						return $elm$core$Maybe$Just($author$project$TypeCheck$B);
+					}
+				} else {
+					return $elm$core$Maybe$Nothing;
+				}
+			default:
+				var t1 = term.a;
+				var t2 = term.b;
+				var t3 = term.c;
+				if (!_Utils_eq(
+					$author$project$TypeCheck$typeCheck(t1),
+					$elm$core$Maybe$Just($author$project$TypeCheck$B))) {
+					return $elm$core$Maybe$Nothing;
+				} else {
+					if (_Utils_eq(
+						$author$project$TypeCheck$typeCheck(t2),
+						$author$project$TypeCheck$typeCheck(t3))) {
+						var $temp$term = t3;
+						term = $temp$term;
+						continue typeCheck;
+					} else {
+						return $elm$core$Maybe$Nothing;
+					}
+				}
+		}
+	}
+};
+var $author$project$Main$transform2 = function (inp) {
+	var _v0 = $author$project$Term$parse(inp);
+	if (_v0.$ === 'Err') {
+		return 'Parse error';
+	} else {
+		var term_ = _v0.a;
+		var _v1 = $author$project$TypeCheck$typeCheck(term_);
+		if (_v1.$ === 'Nothing') {
+			return 'Not typable';
+		} else {
+			var type_ = _v1.a;
+			return $author$project$Interpreter$stringOfValue(
+				$author$project$Interpreter$evalString(inp));
+		}
+	}
 };
 var $author$project$Main$update = F2(
 	function (msg, model) {
@@ -3590,7 +3682,7 @@ var $author$project$Main$update = F2(
 		return _Utils_Tuple2(
 			model,
 			$author$project$Main$put(
-				$author$project$Main$transform(input)));
+				$author$project$Main$transform2(input)));
 	});
 var $elm$core$Platform$worker = _Platform_worker;
 var $author$project$Main$main = $elm$core$Platform$worker(

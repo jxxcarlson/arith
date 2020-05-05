@@ -1,4 +1,4 @@
-module Utility exposing(depth, size)
+module Utility exposing(depth, nodeCount, stringValue)
 
 import Term exposing(Term(..))
 
@@ -41,8 +41,8 @@ stringValue t =
 {-| Find the size of a term, i.e., the number of nodes
 considered as a tree.
 -}
-size : Term -> Int
-size t =
+nodeCount : Term -> Int
+nodeCount t =
     case t of
         T ->
             1
