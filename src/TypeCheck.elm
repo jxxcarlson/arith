@@ -4,11 +4,23 @@ import Term exposing(Term(..))
 
 import Parser exposing (..)
 
+{-
+
+  REFERENCE: Chapter 8 of *Types and Programming Languages, by Benjamin Pierce
+
+-}
+
 type Type_
     = B
     | N
 
 {-|
+
+  The function typeCheckString attempts to parse its input.  If parsing
+  fails, Nothing is returned.  If parsing succeeds, a type checker
+  is run on the resulting term.  It the term is typable, its type,
+  Just B for boolean and Just N for a natural number is returned.
+  If the term is not typable, the Nothing is returned.
 
   > typeCheckString "succ zero"
   Nothing : Maybe Type_
