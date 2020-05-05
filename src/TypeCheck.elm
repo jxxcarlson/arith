@@ -56,12 +56,7 @@ typeCheckString str =
 
 typeCheckResult : Result (List Parser.DeadEnd) Term -> Maybe Type_
 typeCheckResult result =
-    case result of
-        Err _ ->
-            Nothing
-
-        Ok term ->
-            typeCheck term
+    (Maybe.andThen typeCheck << Result.toMaybe) result
 
 
 typeCheck : Term -> Maybe Type_
@@ -110,11 +105,12 @@ typeCheck term =
                     Nothing
 
         IfExpr t1 t2 t3 ->
-            if typeCheck t1 /= Just B then
-                Nothing
+            case ( typeCheck t1, typeCheck t2, typeCheck t3 ) of
+                ( Just B, Just B, Just B ) ->
+                    Just B
 
-            else if typeCheck t2 == typeCheck t3 then
-                typeCheck t3
+                ( Just B, Just N, Just N ) ->
+                    Just N
 
-            else
-                Nothing
+                _ ->
+                    Nothing
