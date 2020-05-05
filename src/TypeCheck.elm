@@ -1,14 +1,16 @@
 module TypeCheck exposing (Type_(..), toString, typeCheck, typeCheckString)
 
-import Term exposing(Term(..))
-
 import Parser exposing (..)
+import Term exposing (Term(..))
+
+
 
 {-
 
-  REFERENCE: Chapter 8 of *Types and Programming Languages, by Benjamin Pierce
+   REFERENCE: Chapter 8 of *Types and Programming Languages, by Benjamin Pierce
 
 -}
+
 
 type Type_
     = B
@@ -17,43 +19,50 @@ type Type_
 
 toString : Type_ -> String
 toString type_ =
-  case type_ of
-    B -> "Boolean"
-    N -> "Nat"
+    case type_ of
+        B ->
+            "Boolean"
 
-{-|
+        N ->
+            "Nat"
 
-  The function typeCheckString attempts to parse its input.  If parsing
-  fails, Nothing is returned.  If parsing succeeds, a type checker
-  is run on the resulting term.  It the term is typable, its type,
-  Just B for boolean and Just N for a natural number is returned.
-  If the term is not typable, the Nothing is returned.
 
-  > typeCheckString "succ zero"
-  Nothing : Maybe Type_
+{-| The function typeCheckString attempts to parse its input. If parsing
+fails, Nothing is returned. If parsing succeeds, a type checker
+is run on the resulting term. It the term is typable, its type,
+Just B for boolean and Just N for a natural number is returned.
+If the term is not typable, the Nothing is returned.
 
-  > typeCheckString "succ 0"
-  Just N : Maybe Type_
+> typeCheckString "succ zero"
+> Nothing : Maybe Type\_
 
-  > typeCheckString "succ false"
-  Nothing : Maybe Type_
+> typeCheckString "succ 0"
+> Just N : Maybe Type\_
 
-  > typeCheckString "if iszero 0 then true else false"
-  Just B : Maybe Type_
+> typeCheckString "succ false"
+> Nothing : Maybe Type\_
 
-  > typeCheckString "if iszero 0 then true else 0"
-  Nothing : Maybe Type_
+> typeCheckString "if iszero 0 then true else false"
+> Just B : Maybe Type\_
+
+> typeCheckString "if iszero 0 then true else 0"
+> Nothing : Maybe Type\_
 
 -}
 typeCheckString : String -> Maybe Type_
 typeCheckString str =
-  (typeCheckResult << Term.parse) str
+    (typeCheckResult << Term.parse) str
+
 
 typeCheckResult : Result (List Parser.DeadEnd) Term -> Maybe Type_
 typeCheckResult result =
-  case result of
-    Err _ -> Nothing
-    Ok term -> typeCheck term
+    case result of
+        Err _ ->
+            Nothing
+
+        Ok term ->
+            typeCheck term
+
 
 typeCheck : Term -> Maybe Type_
 typeCheck term =

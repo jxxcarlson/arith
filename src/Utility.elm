@@ -1,6 +1,8 @@
-module Utility exposing(depth, nodeCount, stringValue)
+module Utility exposing (depth, nodeCount, stringValue)
 
-import Term exposing(Term(..))
+import Term exposing (Term(..))
+
+
 
 --
 -- FUNCTIONS ON TERMS

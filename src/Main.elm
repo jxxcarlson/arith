@@ -1,9 +1,9 @@
 port module Main exposing (main)
 
-import Term
-import TypeCheck
 import Interpreter
 import Platform exposing (Program)
+import Term
+import TypeCheck
 
 
 {-| A simple Platform.worker program with
@@ -93,10 +93,14 @@ transform1 inp =
 transform2 : InputType -> InputType
 transform2 inp =
     case Term.parse inp of
-      Err _ -> "Parse error"
-      Ok term_ ->
-        case TypeCheck.typeCheck term_ of
-          Nothing -> "Not typable"
-          Just type_ ->
-            Interpreter.evalString inp
-                |> Interpreter.stringOfValue
+        Err _ ->
+            "Parse error"
+
+        Ok term_ ->
+            case TypeCheck.typeCheck term_ of
+                Nothing ->
+                    "Not typable"
+
+                Just type_ ->
+                    Interpreter.evalString inp
+                        |> Interpreter.stringOfValue
