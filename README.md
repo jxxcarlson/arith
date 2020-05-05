@@ -11,6 +11,9 @@ An Elm implementation of the little language "arith" described in  *Types and Pr
 
 - **TypeCheck.elm:** the function `typeCheck : Term -> Maybe Type_`
 
+- **Utility.elm:** the functions `depth, nodeCount, stringValue`.  
+Convenient, but needed for the above
+
 - **Main.elm:** a headless Elm app for implementing a repl
 
 - **repl.js:** a Javascript program which sets up communication between `Main.elm` and the console.
