@@ -41,5 +41,5 @@ Not typable
 ## References
 
 - *Types and Programming Languages*, by Benjamin Pierce
-- A [Parsing](https://medium.com/@jxxcarlson/implementing-the-mini-language-arith-in-elm-a522f9a7101) on Arith and implementation of a parser for it in Elm.
-- A [Type checking](https://medium.com/@jxxcarlson/type-checking-the-mini-language-arith-in-elm-c752e3e77a97)
+- Medium article: [Parsing](https://medium.com/@jxxcarlson/implementing-the-mini-language-arith-in-elm-a522f9a7101) on Arith and implementation of a parser for it in Elm.
+- Medium article: [Type checking](https://medium.com/@jxxcarlson/type-checking-the-mini-language-arith-in-elm-c752e3e77a97)
