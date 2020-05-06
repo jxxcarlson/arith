@@ -13,7 +13,7 @@ type Term
     | IfExpr Term Term Term
 
 
-{-| parse a string in the langauge `arith`. If successful return
+{-| parse a string in the language `arith`. If successful return
 a value Ok Term. Otherwise return a value `Err String`
 
 NOTE: This parser will parse the longest valid prefix in an

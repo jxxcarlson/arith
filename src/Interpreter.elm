@@ -1,4 +1,4 @@
-module Interpreter exposing (eval, evalString, stringOfValue)
+module Interpreter exposing (eval, evalResult, evalString, stringOfValue)
 
 import Parser exposing (run)
 import Term exposing (Term(..), term)
@@ -47,6 +47,16 @@ evalString str =
 
         Err _ ->
             Error "Parse error"
+
+
+evalResult : Result (List Parser.DeadEnd) Term -> Maybe Value
+evalResult result =
+    case result of
+        Ok ast ->
+            eval ast |> Just
+
+        Err _ ->
+            Nothing
 
 
 {-| Find the value of a term:

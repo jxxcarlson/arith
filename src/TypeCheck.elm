@@ -13,17 +13,17 @@ import Term exposing (Term(..))
 
 
 type Type_
-    = B
-    | N
+    = Boolean
+    | Nat
 
 
 toString : Type_ -> String
 toString type_ =
     case type_ of
-        B ->
+        Boolean ->
             "Boolean"
 
-        N ->
+        Nat ->
             "Nat"
 
 
@@ -63,54 +63,54 @@ typeCheck : Term -> Maybe Type_
 typeCheck term =
     case term of
         T ->
-            Just B
+            Just Boolean
 
         F ->
-            Just B
+            Just Boolean
 
         Zero ->
-            Just N
+            Just Nat
 
         Succ term_ ->
             case typeCheck term_ of
-                Just B ->
+                Just Boolean ->
                     Nothing
 
-                Just N ->
-                    Just N
+                Just Nat ->
+                    Just Nat
 
                 Nothing ->
                     Nothing
 
         Pred term_ ->
             case typeCheck term_ of
-                Just B ->
+                Just Boolean ->
                     Nothing
 
-                Just N ->
-                    Just N
+                Just Nat ->
+                    Just Nat
 
                 Nothing ->
                     Nothing
 
         IsZero term_ ->
             case typeCheck term_ of
-                Just B ->
+                Just Boolean ->
                     Nothing
 
-                Just N ->
-                    Just B
+                Just Nat ->
+                    Just Boolean
 
                 Nothing ->
                     Nothing
 
         IfExpr t1 t2 t3 ->
             case ( typeCheck t1, typeCheck t2, typeCheck t3 ) of
-                ( Just B, Just B, Just B ) ->
-                    Just B
+                ( Just Boolean, Just Boolean, Just Boolean ) ->
+                    Just Boolean
 
-                ( Just B, Just N, Just N ) ->
-                    Just N
+                ( Just Boolean, Just Nat, Just Nat ) ->
+                    Just Nat
 
                 _ ->
                     Nothing

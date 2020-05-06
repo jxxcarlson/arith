@@ -2987,8 +2987,7 @@ var $author$project$Interpreter$eval = function (t) {
 				var c = t.c;
 				var _v4 = $author$project$Interpreter$eval(a);
 				if (_v4.$ === 'Boolean') {
-					var v = _v4.a;
-					if (v) {
+					if (_v4.a) {
 						var $temp$t = b;
 						t = $temp$t;
 						continue _eval;
@@ -3583,81 +3582,93 @@ var $author$project$Interpreter$stringOfValue = function (val) {
 			return str;
 	}
 };
-var $author$project$TypeCheck$B = {$: 'B'};
-var $author$project$TypeCheck$N = {$: 'N'};
-var $elm$core$Basics$neq = _Utils_notEqual;
+var $author$project$TypeCheck$Boolean = {$: 'Boolean'};
+var $author$project$TypeCheck$Nat = {$: 'Nat'};
 var $author$project$TypeCheck$typeCheck = function (term) {
-	typeCheck:
-	while (true) {
-		switch (term.$) {
-			case 'T':
-				return $elm$core$Maybe$Just($author$project$TypeCheck$B);
-			case 'F':
-				return $elm$core$Maybe$Just($author$project$TypeCheck$B);
-			case 'Zero':
-				return $elm$core$Maybe$Just($author$project$TypeCheck$N);
-			case 'Succ':
-				var term_ = term.a;
-				var _v1 = $author$project$TypeCheck$typeCheck(term_);
-				if (_v1.$ === 'Just') {
-					if (_v1.a.$ === 'B') {
-						var _v2 = _v1.a;
-						return $elm$core$Maybe$Nothing;
-					} else {
-						var _v3 = _v1.a;
-						return $elm$core$Maybe$Just($author$project$TypeCheck$N);
-					}
-				} else {
-					return $elm$core$Maybe$Nothing;
-				}
-			case 'Pred':
-				var term_ = term.a;
-				var _v4 = $author$project$TypeCheck$typeCheck(term_);
-				if (_v4.$ === 'Just') {
-					if (_v4.a.$ === 'B') {
-						var _v5 = _v4.a;
-						return $elm$core$Maybe$Nothing;
-					} else {
-						var _v6 = _v4.a;
-						return $elm$core$Maybe$Just($author$project$TypeCheck$N);
-					}
-				} else {
-					return $elm$core$Maybe$Nothing;
-				}
-			case 'IsZero':
-				var term_ = term.a;
-				var _v7 = $author$project$TypeCheck$typeCheck(term_);
-				if (_v7.$ === 'Just') {
-					if (_v7.a.$ === 'B') {
-						var _v8 = _v7.a;
-						return $elm$core$Maybe$Nothing;
-					} else {
-						var _v9 = _v7.a;
-						return $elm$core$Maybe$Just($author$project$TypeCheck$B);
-					}
-				} else {
-					return $elm$core$Maybe$Nothing;
-				}
-			default:
-				var t1 = term.a;
-				var t2 = term.b;
-				var t3 = term.c;
-				if (!_Utils_eq(
-					$author$project$TypeCheck$typeCheck(t1),
-					$elm$core$Maybe$Just($author$project$TypeCheck$B))) {
+	switch (term.$) {
+		case 'T':
+			return $elm$core$Maybe$Just($author$project$TypeCheck$Boolean);
+		case 'F':
+			return $elm$core$Maybe$Just($author$project$TypeCheck$Boolean);
+		case 'Zero':
+			return $elm$core$Maybe$Just($author$project$TypeCheck$Nat);
+		case 'Succ':
+			var term_ = term.a;
+			var _v1 = $author$project$TypeCheck$typeCheck(term_);
+			if (_v1.$ === 'Just') {
+				if (_v1.a.$ === 'Boolean') {
+					var _v2 = _v1.a;
 					return $elm$core$Maybe$Nothing;
 				} else {
-					if (_Utils_eq(
-						$author$project$TypeCheck$typeCheck(t2),
-						$author$project$TypeCheck$typeCheck(t3))) {
-						var $temp$term = t3;
-						term = $temp$term;
-						continue typeCheck;
-					} else {
-						return $elm$core$Maybe$Nothing;
-					}
+					var _v3 = _v1.a;
+					return $elm$core$Maybe$Just($author$project$TypeCheck$Nat);
 				}
-		}
+			} else {
+				return $elm$core$Maybe$Nothing;
+			}
+		case 'Pred':
+			var term_ = term.a;
+			var _v4 = $author$project$TypeCheck$typeCheck(term_);
+			if (_v4.$ === 'Just') {
+				if (_v4.a.$ === 'Boolean') {
+					var _v5 = _v4.a;
+					return $elm$core$Maybe$Nothing;
+				} else {
+					var _v6 = _v4.a;
+					return $elm$core$Maybe$Just($author$project$TypeCheck$Nat);
+				}
+			} else {
+				return $elm$core$Maybe$Nothing;
+			}
+		case 'IsZero':
+			var term_ = term.a;
+			var _v7 = $author$project$TypeCheck$typeCheck(term_);
+			if (_v7.$ === 'Just') {
+				if (_v7.a.$ === 'Boolean') {
+					var _v8 = _v7.a;
+					return $elm$core$Maybe$Nothing;
+				} else {
+					var _v9 = _v7.a;
+					return $elm$core$Maybe$Just($author$project$TypeCheck$Boolean);
+				}
+			} else {
+				return $elm$core$Maybe$Nothing;
+			}
+		default:
+			var t1 = term.a;
+			var t2 = term.b;
+			var t3 = term.c;
+			var _v10 = _Utils_Tuple3(
+				$author$project$TypeCheck$typeCheck(t1),
+				$author$project$TypeCheck$typeCheck(t2),
+				$author$project$TypeCheck$typeCheck(t3));
+			_v10$2:
+			while (true) {
+				if (((_v10.a.$ === 'Just') && (_v10.a.a.$ === 'Boolean')) && (_v10.b.$ === 'Just')) {
+					if (_v10.b.a.$ === 'Boolean') {
+						if ((_v10.c.$ === 'Just') && (_v10.c.a.$ === 'Boolean')) {
+							var _v11 = _v10.a.a;
+							var _v12 = _v10.b.a;
+							var _v13 = _v10.c.a;
+							return $elm$core$Maybe$Just($author$project$TypeCheck$Boolean);
+						} else {
+							break _v10$2;
+						}
+					} else {
+						if ((_v10.c.$ === 'Just') && (_v10.c.a.$ === 'Nat')) {
+							var _v14 = _v10.a.a;
+							var _v15 = _v10.b.a;
+							var _v16 = _v10.c.a;
+							return $elm$core$Maybe$Just($author$project$TypeCheck$Nat);
+						} else {
+							break _v10$2;
+						}
+					}
+				} else {
+					break _v10$2;
+				}
+			}
+			return $elm$core$Maybe$Nothing;
 	}
 };
 var $author$project$Main$transform2 = function (inp) {
