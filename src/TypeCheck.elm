@@ -1,4 +1,4 @@
-module TypeCheck exposing (Type_(..), toString, typeCheck, typeCheckString)
+module TypeCheck exposing (Type(..), toString, typeCheck, typeCheckString)
 
 import Parser exposing (..)
 import Term exposing (Term(..))
@@ -12,12 +12,12 @@ import Term exposing (Term(..))
 -}
 
 
-type Type_
+type Type
     = Boolean
     | Nat
 
 
-toString : Type_ -> String
+toString : Type -> String
 toString type_ =
     case type_ of
         Boolean ->
@@ -49,17 +49,17 @@ If the term is not typable, the Nothing is returned.
 > Nothing : Maybe Type\_
 
 -}
-typeCheckString : String -> Maybe Type_
+typeCheckString : String -> Maybe Type
 typeCheckString str =
     (typeCheckResult << Term.parse) str
 
 
-typeCheckResult : Result (List Parser.DeadEnd) Term -> Maybe Type_
+typeCheckResult : Result (List Parser.DeadEnd) Term -> Maybe Type
 typeCheckResult result =
     (Maybe.andThen typeCheck << Result.toMaybe) result
 
 
-typeCheck : Term -> Maybe Type_
+typeCheck : Term -> Maybe Type
 typeCheck term =
     case term of
         T ->
