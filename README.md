@@ -1,7 +1,33 @@
 # What is this about?
 
-An Elm implementation of the little language "arith" described in  *Types and Programming Languages,* Chapter 3.  
+An Elm implementation of the little language "Arith" described in  *Types and Programming Languages,* Chapter 3.
 
+Arith is a very simple language, providing only three terms:
+
+- `true`
+- `false`
+- and the natural number `0`
+
+The operations you can perform are:
+
+- `succ` for getting the next term
+- `pred` for getting the previous term
+- `iszero` to check if the term is in fact zero
+
+The last superpower you are provided with is the `if then else` construct.
+That is all!
+
+Here's an example of an Arith expression:
+
+```
+if iszero succ 0
+  then succ succ succ 0
+  else false
+```
+
+Which could be represented by this graph:
+
+![](./images/arith-example.svg)
 
 ## Code
 
@@ -11,7 +37,7 @@ An Elm implementation of the little language "arith" described in  *Types and Pr
 
 - **TypeCheck.elm:** the function `typeCheck : Term -> Maybe Type_`
 
-- **Utility.elm:** the functions `depth, nodeCount, stringValue`.  
+- **Utility.elm:** the functions `depth, nodeCount, stringValue`.
 Convenient, but not needed for the above
 
 - **Main.elm:** a headless Elm app for implementing a repl
@@ -23,7 +49,7 @@ Convenient, but not needed for the above
 - Lesson 1
 - Exercises
 
-## Operation of the repl  
+## Operation of the repl
 
 ```
 $ cd src
