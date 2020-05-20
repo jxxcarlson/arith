@@ -6,37 +6,31 @@ import Term
 import TypeCheck
 
 
-{-| A simple Platform.worker program with
-a simple command-line interface:
-`$ sh make.sh` -- (1)
-`$ chmod u+x cli; alias cli='./cli'` -- (2)
-`$ cli 77` -- (3)
-`232`
 
-1.  Compile Main.elm to `./run/main.js` and
-    copy `src/cli.js` to `./run/cli.js`
-2.  Make `cli` executable and make an alias for it
-    to avoid awkward typing.
-3.  Try it out. The program `cli.js` communicates
-    with runtime for the `Platform.worker` program.
-    The worker accepts input, computes some output,
-    and send the output back through ports.
-    To do something more interesting, replace
-    the `transform` function in `Main.elm`.
+{- A simple Platform.worker program that
+   acts as in interface between the repl defined in
+   repl.js and your elm code.  The Elm code should
+   expose a function
 
+        transform : String -> String
+
+    Whatever you text you enter at the command prompt
+    is used as input to `transform`. The resulting
+    output displayed on the screen.
+
+    Run
+
+       $ node repl.js
+
+    for the repl.  The help text is defined in the string
+    `helpText` below.
 -}
-type alias InputType =
-    String
 
 
-type alias OutputType =
-    String
+port get : (String -> msg) -> Sub msg
 
 
-port get : (InputType -> msg) -> Sub msg
-
-
-port put : OutputType -> Cmd msg
+port put : String -> Cmd msg
 
 
 main : Program Flags Model Msg
@@ -69,7 +63,12 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         Input input ->
-            ( model, put (transform2 input) )
+            case input == "h\n" || input == "help\n" of
+                True ->
+                    ( model, put helpText )
+
+                False ->
+                    ( model, put (transform input) )
 
 
 subscriptions : Model -> Sub Msg
@@ -77,21 +76,8 @@ subscriptions _ =
     get Input
 
 
-
-{- Below is the input-to-output transformation.
-   It could be anything.  Here we have something
-   simple for demonstration purposes.
--}
-
-
-transform1 : InputType -> InputType
-transform1 inp =
-    Interpreter.evalString inp
-        |> Interpreter.stringOfValue
-
-
-transform2 : InputType -> InputType
-transform2 inp =
+transform : String -> String
+transform inp =
     case Term.parse inp of
         Err _ ->
             "Parse error"
@@ -104,3 +90,24 @@ transform2 inp =
                 Just type_ ->
                     Interpreter.evalString inp
                         |> Interpreter.stringOfValue
+
+
+helpText =
+    """
+This app parses, typechecks and evaluates
+expressions for the mini-language "Arith"
+described in Benjamin Peirce's "Types and Programming Languages."
+
+Examples of what you can do at the command line:
+
+    > succ succ 0
+    2
+
+    > succ false
+    Not typable
+
+    > succ "foo"
+    Parse error
+
+See the README for more info.
+"""

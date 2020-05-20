@@ -38,6 +38,6 @@ function myWriter(output) {
   return output
 }
 
-console.log("\nParse-eval for arith\n")
+console.log("\nType 'h' for help\n")
 
 repl.start({ prompt: '> ', eval: eval, writer: myWriter});
