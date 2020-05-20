@@ -83,7 +83,7 @@ When parsed, it is transformed into the data structure
 
 While it may not look like it, this data structure is a tree, a so-called *abstract syntax tree*, or *AST*, as in the figure below. One of the jobs of a compiler is to compute AST's for the text of a program, then translate that tree into machine code.   
 
-![ast](image/ast.jpg)
+![ast](../images/ast.jpg)
 
 To summarize, parsers are used to construct functions
 
